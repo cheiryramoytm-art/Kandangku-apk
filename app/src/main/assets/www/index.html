@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kandangku untuk Sang Raja — Teks Pemeran</title>
+<style>
+@font-face{font-family:Fredoka;font-weight:600;src:url(fonts/fredoka-600.woff2) format('woff2')}
+@font-face{font-family:Nunito;font-weight:800;src:url(fonts/nunito-800.woff2) format('woff2')}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Nunito,system-ui,sans-serif;font-weight:800;color:#fff;overflow:hidden;background:#2d2462}
+#screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 20px 120px;text-align:center;
+  background:linear-gradient(160deg,#7E6BD6,#3E2F86);transition:background .6s ease}
+#screen:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 3px,transparent 3.5px);background-size:30px 30px;pointer-events:none}
+.top{position:fixed;top:0;left:0;right:0;padding:14px 16px;display:flex;justify-content:center;z-index:2}
+.top span{background:rgba(0,0,0,.22);border-radius:999px;padding:7px 16px;font-family:Fredoka;font-weight:600;font-size:clamp(14px,3.2vw,20px)}
+.avs{position:relative;display:flex;justify-content:center;margin-bottom:12px}
+.av{width:clamp(80px,18vmin,150px);height:clamp(80px,18vmin,150px);border-radius:50%;background:#fff;border:6px solid rgba(255,255,255,.85);overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.avs.many .av{width:clamp(56px,12vmin,100px);height:clamp(56px,12vmin,100px)}
+.av+.av{margin-left:-20px}
+.av svg{width:100%;height:100%;display:block}
+.name{position:relative;font-family:Fredoka;font-weight:600;font-size:clamp(22px,5vmin,42px);text-shadow:0 3px 0 rgba(0,0,0,.2);margin-bottom:16px}
+.txt{position:relative;font-family:Fredoka;font-weight:600;font-size:clamp(30px,7.2vmin,76px);line-height:1.2;max-width:1100px;text-shadow:0 4px 0 rgba(0,0,0,.22)}
+.txt .note{opacity:.8;margin-right:.2em}
+.anim{animation:pop .45s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px 18px;display:flex;align-items:center;justify-content:center;gap:16px;z-index:2;
+  background:linear-gradient(transparent,rgba(0,0,0,.28))}
+.bar button{border:0;cursor:pointer;font-family:inherit;font-weight:800}
+.nav{background:rgba(255,255,255,.22);color:#fff;border-radius:999px;width:58px;height:58px;font-size:24px}
+.play{background:#fff;color:#FF4F84;border-radius:50%;width:78px;height:78px;font-size:34px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.prog{position:fixed;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.2);z-index:3}
+.prog i{display:block;height:100%;width:0;background:#fff}
+.load{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(30,24,70,.92)}
+.load[hidden]{display:none}
+.load label{background:#FFD54F;color:#3a2a00;border-radius:28px;padding:28px 26px;max-width:420px;margin:20px;text-align:center;cursor:pointer;box-shadow:0 8px 0 #c9a227}
+.load b{display:block;font-family:Fredoka;font-weight:600;font-size:26px;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div id="screen">
+  <div class="avs" id="avs"></div>
+  <div class="name" id="name"></div>
+  <div class="txt" id="txt"></div>
+</div>
+<div class="top"><span id="title"></span></div>
+<div class="bar">
+  <button class="nav" id="prev" aria-label="Bagian sebelumnya">⏮</button>
+  <button class="play" id="play" aria-label="Putar">▶</button>
+  <button class="nav" id="next" aria-label="Bagian berikutnya">⏭</button>
+</div>
+<div class="prog"><i id="prog"></i></div>
+<div class="load" id="load" hidden><label><b>🎧 Pilih rekaman</b>Ketuk di sini, lalu pilih semua 8 file rekaman sekaligus. Cukup sekali saja.<input type="file" id="files" accept="audio/*,.m4a" multiple style="display:none"></label></div>
+<audio id="audio" preload="auto"></audio>
+<script>
+const DATA = [{"id": "a1", "title": "Adegan 1 · Kandang", "emoji": "🏠", "kind": "dialog", "audio": "audio/a1.m4a", "duration": 80.07, "lines": [{"who": "Narator", "text": "Di kota kecil bernama Betlehem, ada sebuah kandang. Di kandang itu tinggal dua ekor domba: Embe dan adiknya, Embi.", "cue": "01", "t": 0.25, "e": 10.1}, {"who": "Narator", "text": "Kandang itu kecil, bau, dan gelap. Tapi buat Embe, kandang itu istananya. Apalagi palungannya, tempat makan kesayangannya.", "cue": "01", "t": 10.61, "e": 20.85}, {"who": "Embe", "text": "Kita Punya...", "cue": "01", "t": 22.09, "e": 23.29}, {"who": "Narator", "text": "Malam itu, kota Betlehem ramai sekali. Semua penginapan penuh.", "cue": "01", "t": 24.09, "e": 32.68}, {"who": "Embe", "text": "Biar jo nda penting sih itu info.", "cue": "01", "t": 33.58, "e": 35.32}, {"who": "Narator", "text": "Tapi malam itu, ada yang datang. Yusuf dan istrinya, Maria, yang sedang mengandung.", "cue": "02", "t": 37.89, "e": 47.45}, {"who": "Yusuf", "text": "Maria, tu kosong cuman ada ini kandang", "cue": "02", "t": 48.15, "e": 52.2}, {"who": "Maria", "text": "Nda apa apa, torang istirahat disini jo", "cue": "02", "t": 53.9, "e": 57.49}, {"who": "Embe", "text": "Mbeeek?!", "cue": "02", "t": 58.46, "e": 60.1}, {"who": "Embi", "text": "Kak, ada orang!", "cue": "02", "t": 60.69, "e": 61.86}, {"who": "Embe", "text": "Heh kita pe kandang!", "cue": "02", "t": 62.55, "e": 64.94}, {"who": "Maria", "text": "Domba-domba imyut... kami menumpang nehh.", "cue": "02", "t": 65.34, "e": 71.65}, {"who": "Embi", "text": "Kak, imut kata torang!", "cue": "02", "t": 72.16, "e": 74.39}, {"who": "Embe", "text": "Oh jelas imut... TETAP NEMBOLEH!", "cue": "02", "t": 75.13, "e": 78.49}], "estimated": true}, {"id": "l1", "title": "Lagu 1 · Ini Kandangku!", "emoji": "🎵", "kind": "song", "audio": "audio/l1.m4a", "duration": 72.86, "lines": [{"who": "Embi", "text": "Kak! Dorang mo tidor disini!", "spoken": true, "t": 3.0, "e": 5.92}, {"who": "Embe", "text": "hah?! Pa Kita Pe Kandang?!", "spoken": true, "t": 5.92, "e": 8.31}, {"who": "Embi", "text": "Ini kandang istananya", "part": "Verse 1", "t": 8.31, "e": 10.96}, {"who": "Embi", "text": "Jerami kasurnya", "part": "Verse 1", "t": 10.96, "e": 13.08}, {"who": "Embi", "text": "Ada bintang di atapnya", "part": "Verse 1", "t": 13.08, "e": 15.73}, {"who": "Embi", "text": "Palungan miliknya", "part": "Verse 1", "t": 15.73, "e": 17.86}, {"who": "Embi", "text": "Malam ini datang tamu", "part": "Verse 1", "t": 17.86, "e": 20.51}, {"who": "Embi", "text": "Masuk ke kandangnya!", "part": "Verse 1", "t": 20.51, "e": 22.63}, {"who": "Embe", "text": "O, pergi dari kandangku, kandangku, mbeeek!", "part": "Reff", "t": 22.63, "e": 26.35}, {"who": "Embe", "text": "O, pergi dari kandangku!", "part": "Reff", "t": 26.35, "e": 29.0}, {"who": "Embi", "text": "Kak, jerami kita dipakai!", "spoken": true, "t": 29.0, "e": 31.92}, {"who": "Embe", "text": "Huh! Nyebelin!", "spoken": true, "t": 31.92, "e": 33.51}, {"who": "Embi", "text": "Jerami diacak-acak", "part": "Verse 2", "t": 33.51, "e": 35.9}, {"who": "Embi", "text": "Jadi berantakan", "part": "Verse 2", "t": 35.9, "e": 38.02}, {"who": "Embi", "text": "Palungan tempat makannya", "part": "Verse 2", "t": 38.02, "e": 40.67}, {"who": "Embi", "text": "Jangan sembarangan", "part": "Verse 2", "t": 40.67, "e": 42.8}, {"who": "Embi", "text": "Kakak tidur di mana dong?", "part": "Verse 2", "t": 42.8, "e": 45.45}, {"who": "Embi", "text": "Masa di luaran?", "part": "Verse 2", "t": 45.45, "e": 47.31}, {"who": "Embe", "text": "O, pergi dari kandangku, kandangku, mbeeek!", "part": "Reff", "t": 47.31, "e": 51.02}, {"who": "Embe", "text": "O, pergi dari kandangku!", "part": "Reff", "t": 51.02, "e": 53.67}, {"who": "Embi", "text": "Kak... itu ibu dapa lia lelah kiok.", "spoken": true, "t": 53.67, "e": 57.12}, {"who": "Embe", "text": "Biar sana!Emang gw pikirin", "spoken": true, "t": 57.12, "e": 59.77}, {"who": "Embe", "text": "O, pergi dari kandangku, kandangku, mbeeek!", "part": "Reff", "t": 59.77, "e": 63.49}, {"who": "Embe", "text": "O, pergi dari kandangku!", "part": "Reff", "t": 63.49, "e": 66.14}, {"who": "Embe", "text": "Kita tae somo pigi!", "spoken": true, "t": 66.14, "e": 68.53}, {"who": "Embi", "text": "Kak, tunggu!", "spoken": true, "t": 68.53, "e": 69.86}], "estimated": true}, {"id": "a2", "title": "Adegan 2 · Kabur dan Dicari", "emoji": "🌙", "kind": "dialog", "audio": "audio/a2.m4a", "duration": 115.4, "lines": [{"who": "Narator", "text": "Embe pergi dari kandang. Embi ikut menyusul kakaknya. Malam itu dingin dan gelap sekali.", "cue": "04", "t": 0.35, "e": 14.01}, {"who": "Embi", "text": "Kak, dingin...", "cue": "04", "t": 14.87, "e": 15.91}, {"who": "Embe", "text": "Kita nda tako lai... tako sadiki siii hehe.", "cue": "04", "t": 16.27, "e": 21.36}, {"who": "Embe", "text": "Mbeek! Sapa itu?!", "cue": "04", "t": 23.19, "e": 25.35}, {"who": "Narator", "text": "Karena tidak hati-hati, kaki Embe tersangkut semak berduri.", "cue": "04", "t": 25.85, "e": 30.27}, {"who": "Embe", "text": "Tolong! Kita pe kaki tagate!", "cue": "04", "t": 30.78, "e": 34.66}, {"who": "Embi", "text": "Kak Embe!", "cue": "04", "t": 36.8, "e": 38.12}, {"who": "Embe", "text": "Kita suka mo pulang...", "cue": "04", "t": 39.75, "e": 41.92}, {"who": "Narator", "text": "Tidak jauh dari situ, ada gembala yang menjaga domba di padang: Pak Yakob, Timo, dan dua domba mereka, Bolu dan Cilik.", "cue": "05", "t": 42.29, "e": 54.37}, {"who": "Timo", "text": "Pak, Rupa ada domba pe suara!", "cue": "05", "t": 54.75, "e": 57.14}, {"who": "Pak Yakob", "text": "Hah? Lengkap sih torang p domba, Timo", "cue": "05", "t": 58.43, "e": 61.77}, {"who": "Cilik", "text": "Adoh kage serigala au...", "cue": "05", "t": 62.51, "e": 65.66}, {"who": "Bolu", "text": "Heh, Srigala bukang au, mar AAAUUUUUUU", "cue": "05", "t": 66.14, "e": 69.76}, {"who": "Timo", "text": "Tunggu kita pi lia!", "cue": "05", "t": 70.67, "e": 73.05}, {"who": "Timo", "text": "Ngoni sapa pe domba?", "cue": "05", "t": 73.54, "e": 75.23}, {"who": "Embe", "text": "Mbeek...", "cue": "05", "t": 75.55, "e": 76.08}, {"who": "Pak Yakob", "text": "Ehh bukang torang p domba itu Timo.", "cue": "05", "t": 77.54, "e": 80.36}, {"who": "Timo", "text": "Kasiang kalo mo se tinggal pak.", "cue": "05", "t": 80.83, "e": 84.32}, {"who": "Pak Yakob", "text": "Betul Timo. Gembala yang baik menolong domba yang tersesat. Domba siapa pun.", "cue": "05", "t": 85.54, "e": 91.68}, {"who": "Narator", "text": "Malam itu, Embe ditolong. Padahal dia sendiri yang pergi.", "cue": "05", "t": 92.12, "e": 97.34}, {"who": "Embe", "text": "Dorang ja tolong p kita?", "cue": "05", "t": 98.23, "e": 100.06}, {"who": "Bolu", "text": "Woy kita bolu, ngoni sapa?", "cue": "05", "t": 100.98, "e": 104.09}, {"who": "Cilik", "text": "Kita Cilik…", "cue": "05", "t": 105.14, "e": 107.23}, {"who": "Embi", "text": "Kita Embi! Ini kita pe kakak...", "cue": "05", "t": 107.71, "e": 109.82}, {"who": "Embe", "text": "...Embe.", "cue": "05", "t": 110.45, "e": 110.97}], "estimated": true}, {"id": "a3", "title": "Adegan 3 · Malaikat Datang", "emoji": "✨", "kind": "dialog", "audio": "audio/a3.m4a", "duration": 8.59, "lines": [{"who": "Narator", "text": "Tiba-tiba, langit menjadi terang sekali. Malaikat Tuhan datang!", "cue": "06", "t": 0.0, "e": 7.32}], "estimated": true}, {"id": "l2", "title": "Lagu 2 · Kabar Sukacita", "emoji": "🎵", "kind": "song", "audio": "audio/l2.m4a", "duration": 173.94, "lines": [{"who": "Malaikat", "text": "Gembala, jangan takut", "part": "Putaran 1 — kabar dari malaikat", "t": 9.5, "e": 14.9}, {"who": "Cilik", "text": "Telat, aku pun takut!", "part": "Putaran 1 — kabar dari malaikat", "t": 14.9, "e": 20.3}, {"who": "Malaikat", "text": "Ada kabar gembira", "part": "Putaran 1 — kabar dari malaikat", "t": 20.3, "e": 25.7}, {"who": "Malaikat Kecil", "text": "Untuk semua bangsa", "part": "Putaran 1 — kabar dari malaikat", "t": 25.7, "e": 30.51}, {"who": "Malaikat", "text": "Malam ini t'lah lahir", "part": "Putaran 1 — kabar dari malaikat", "t": 30.51, "e": 35.91}, {"who": "Malaikat", "text": "Juruselamat hadir", "part": "Putaran 1 — kabar dari malaikat", "t": 35.91, "e": 41.31}, {"who": "Malaikat Kecil", "text": "Ini dia tandanya", "part": "Putaran 1 — kabar dari malaikat", "t": 41.31, "e": 46.11}, {"who": "Malaikat", "text": "Bayi dalam palungan", "part": "Putaran 1 — kabar dari malaikat", "t": 46.11, "e": 51.51}, {"who": "Malaikat & Malaikat Kecil", "text": "Dengar, sorga bernyanyi", "part": "Reff — Malaikat & Malaikat Kecil", "t": 51.51, "e": 56.91}, {"who": "Malaikat & Malaikat Kecil", "text": "Lahir raja yang suci", "part": "Reff — Malaikat & Malaikat Kecil", "t": 56.91, "e": 62.31}, {"who": "Embe", "text": "Palungan di kandangku?", "part": "Putaran 2 — semua bereaksi", "t": 62.31, "e": 67.71}, {"who": "Embi", "text": "Itu tempat makanmu!", "part": "Putaran 2 — semua bereaksi", "t": 67.71, "e": 73.12}, {"who": "Pak Yakob", "text": "Kabar yang sungguh besar", "part": "Putaran 2 — semua bereaksi", "t": 73.12, "e": 78.52}, {"who": "Timo", "text": "Hati kami berdebar", "part": "Putaran 2 — semua bereaksi", "t": 78.52, "e": 83.92}, {"who": "Bolu & Cilik", "text": "Domba boleh ikut, kan?", "part": "Putaran 2 — semua bereaksi", "t": 83.92, "e": 89.32}, {"who": "Malaikat Kecil", "text": "Semua boleh datang!", "part": "Putaran 2 — semua bereaksi", "t": 89.32, "e": 94.12}, {"who": "Embi", "text": "Kak, jangan gengsi lagi!", "part": "Putaran 2 — semua bereaksi", "t": 94.12, "e": 99.52}, {"who": "Embe", "text": "Ya udah... aku ikut", "part": "Putaran 2 — semua bereaksi", "t": 99.52, "e": 104.92}, {"who": "Semua", "text": "Dengar, sorga bernyanyi", "part": "Reff — Semua", "t": 104.92, "e": 110.32}, {"who": "Semua", "text": "Lahir raja yang suci", "part": "Reff — Semua", "t": 110.32, "e": 115.73}, {"who": "Malaikat & Malaikat Kecil", "text": "Puji allah di sorga", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 115.73, "e": 121.13}, {"who": "Malaikat & Malaikat Kecil", "text": "Damai bagi dunia", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 121.13, "e": 125.93}, {"who": "Pak Yakob", "text": "Mari, kita ke sana", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 125.93, "e": 131.33}, {"who": "Timo", "text": "Lihat raja mulia", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 131.33, "e": 136.13}, {"who": "Bolu", "text": "Aku bawa hadiah", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 136.13, "e": 140.93}, {"who": "Cilik", "text": "Buat sang bayi raja!", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 140.93, "e": 145.73}, {"who": "Malaikat Kecil", "text": "Hati-hati di jalan!", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 145.73, "e": 151.13}, {"who": "Semua", "text": "Kristus lahir, betlehem!", "part": "Putaran 3 — pujian sorga, lalu berangkat", "t": 151.13, "e": 156.54}, {"who": "Semua", "text": "Dengar, sorga bernyanyi", "part": "Reff — Semua", "t": 156.54, "e": 161.94}, {"who": "Semua", "text": "Lahir raja yang suci", "part": "Reff — Semua", "t": 161.94, "e": 167.34}, {"who": "Semua", "text": "Haleluya!", "spoken": true, "t": 167.34, "e": 170.94}], "estimated": true}, {"id": "a4", "title": "Adegan 4 · Di Palungan", "emoji": "⭐", "kind": "dialog", "audio": "audio/a4.m4a", "duration": 39.31, "lines": [{"who": "Narator", "text": "Tapi di Betlehem, kandangnya ada banyak sekali.", "cue": "08", "t": 0.39, "e": 4.57}, {"who": "Timo", "text": "Kandang yang mana, Pak?", "cue": "08", "t": 5.07, "e": 6.95}, {"who": "Embe", "text": "Marijo, Kita tau!", "cue": "08", "t": 7.46, "e": 9.09}, {"who": "Timo", "text": "Keknya itu domba tahu depe jalan!", "cue": "08", "t": 9.5, "e": 13.32}, {"who": "Narator", "text": "Embe yang tadi marah, sekarang malah menunjukkan jalan ke kandangnya sendiri.", "cue": "08", "t": 14.72, "e": 21.67}, {"who": "Narator", "text": "Dan di sana, di palungan tempat makan Embe, ada seorang bayi. Dialah Yesus, Sang Raja.", "cue": "08", "t": 22.15, "e": 31.84}, {"who": "Maria", "text": "Kamu kembali domba imut.", "cue": "08", "t": 32.61, "e": 35.21}, {"who": "Embe", "text": "Maaf ya... tadi aku galak.", "cue": "08", "t": 36.07, "e": 37.84}], "estimated": true}, {"id": "l3", "title": "Lagu 3 · Tidurlah, Raja Kecil", "emoji": "🎵", "kind": "song", "audio": "audio/l3.m4a", "duration": 80.4, "lines": [{"who": "Maria", "text": "Lentera di kandang", "part": "Verse", "t": 3.0, "e": 8.62}, {"who": "Maria", "text": "Sinar lembut menyapa", "part": "Verse", "t": 8.62, "e": 14.93}, {"who": "Maria", "text": "Jerami yang hangat", "part": "Verse", "t": 14.93, "e": 20.55}, {"who": "Maria", "text": "Bayiku tidur di sana", "part": "Verse", "t": 20.55, "e": 27.57}, {"who": "Embi", "text": "Marah hilang", "part": "Bridge", "t": 27.57, "e": 31.78}, {"who": "Embi", "text": "Hati tenang", "part": "Bridge", "t": 31.78, "e": 35.99}, {"who": "Embi", "text": "Kakak kini tersenyum", "part": "Bridge", "t": 35.99, "e": 42.31}, {"who": "Maria & Embi", "text": "Malam yang 'kan kukenang", "part": "Reff", "t": 42.31, "e": 48.63}, {"who": "Maria & Embi", "text": "Damai di sekitarku", "part": "Reff", "t": 48.63, "e": 54.94}, {"who": "Maria & Embi", "text": "Selamanya kukenang", "part": "Reff", "t": 54.94, "e": 61.26}, {"who": "Maria & Embi", "text": "Semua lagu", "part": "Reff", "t": 61.26, "e": 65.47}, {"who": "Maria & Embi", "text": "Semua kasih", "part": "Reff", "t": 65.47, "e": 69.68}, {"who": "Maria, Embi & Embe", "text": "Semua di sini bersamaku", "part": "Penutup", "t": 69.68, "e": 77.4}], "estimated": true}, {"id": "a5", "title": "Adegan 5 · Pesan Embe", "emoji": "💛", "kind": "dialog", "audio": "audio/a5.m4a", "duration": 30.31, "lines": [{"who": "Narator", "text": "Malam itu, Embe belajar sesuatu. Kandangnya memang kecil, bau, dan berantakan. Tapi Tuhan Yesus mau lahir di sana.", "cue": "10", "t": 0.39, "e": 9.6}, {"who": "Narator", "text": "Tuhan tidak mencari tempat yang bagus. Tuhan mencari hati yang mau terbuka.", "cue": "10", "t": 10.35, "e": 15.07}, {"who": "Embe", "text": "Kita p kandang memang kecil... mar cukup for Raja.", "cue": "10", "t": 16.82, "e": 20.55}, {"who": "Narator", "text": "Bagaimana dengan hatimu? Adakah tempat untuk Tuhan Yesus?", "cue": "10", "t": 21.37, "e": 30.31}], "estimated": true}, {"id": "l4", "title": "Lagu 4 · Ada Tempat untuk-Mu", "emoji": "🎵", "kind": "song", "audio": null, "duration": 0, "lines": [{"who": "Embe & Embi", "text": "Bukan istana, bukan rumah megah", "part": "Bait"}, {"who": "Embe & Embi", "text": "Hanya kandang kecil di betlehem", "part": "Bait"}, {"who": "Pak Yakob & Timo", "text": "Hatiku pun kotor dan berantakan", "part": "Bait"}, {"who": "Pak Yakob & Timo", "text": "Tapi kau mau datang dan tinggal", "part": "Bait"}, {"who": "Maria & Yusuf", "text": "Semua pintu tertutup dan penuh", "part": "Bait"}, {"who": "Maria & Yusuf", "text": "Kandang kecil membuka pintunya", "part": "Bait"}, {"who": "Semua", "text": "Ada tempat", "part": "Klimaks"}, {"who": "Semua", "text": "Untuk-mu di hatiku", "part": "Klimaks"}, {"who": "Semua", "text": "Ya yesusku", "part": "Klimaks"}, {"who": "Semua", "text": "Raja di hatiku", "part": "Klimaks"}, {"who": "Semua", "text": "Ya yesusku", "part": "Klimaks"}, {"who": "Semua", "text": "Tempatku untuk-mu", "part": "Klimaks"}], "estimated": true}];
+const OFFLINE = true;
+const BLOB = {};
+const src = s => BLOB[s.id] || (OFFLINE && s.audio) || null;
+const ROLES = {
+  'Narator':        {c:'#546E7A', c2:'#90A4AE', kind:'Pencerita'},
+  'Embe':           {c:'#F08C00', c2:'#FFC94D', kind:'Domba · tokoh utama'},
+  'Embi':           {c:'#0FA3B1', c2:'#7EE3EA', kind:'Domba · adik Embe'},
+  'Bolu':           {c:'#8D6E63', c2:'#C9A99B', kind:'Domba gendut'},
+  'Cilik':          {c:'#E8457A', c2:'#FFA6C4', kind:'Domba paling kecil'},
+  'Pak Yakob':      {c:'#8A5A2B', c2:'#D6A56E', kind:'Gembala tua'},
+  'Timo':           {c:'#1E7BE0', c2:'#7DBBFF', kind:'Gembala muda'},
+  'Malaikat':       {c:'#E0A100', c2:'#FFE07A', kind:'Utusan Tuhan'},
+  'Malaikat Kecil': {c:'#8B6CF0', c2:'#C9B8FF', kind:'Pendamping malaikat'},
+  'Maria':          {c:'#3949AB', c2:'#8C9EFF', kind:'Ibu Yesus'},
+  'Yusuf':          {c:'#00897B', c2:'#5FD3C4', kind:'Suami Maria'},
+};
+
+/* ---------- original SVG avatars ---------- */
+function sheep(o){
+  const wool = (o.wool||'#fff'), face=o.face||'#4E3B31', s=o.small?0.86:1;
+  let acc='';
+  if(o.acc==='crown') acc='<path d="M70 52 l10 -22 l12 16 l8 -20 l8 20 l12 -16 l10 22 z" fill="#FFD23F" stroke="#E0A100" stroke-width="3" stroke-linejoin="round"/><circle cx="100" cy="40" r="4" fill="#E8457A"/>';
+  if(o.acc==='bow') acc='<g transform="translate(100 168)"><path d="M0 0 L-26 -12 L-26 12 Z M0 0 L26 -12 L26 12 Z" fill="#0FA3B1" stroke="#087D88" stroke-width="3" stroke-linejoin="round"/><circle r="7" fill="#087D88"/></g>';
+  if(o.acc==='grass') acc='<g stroke="#4CAF50" stroke-width="5" stroke-linecap="round"><path d="M118 140 l16 -8"/><path d="M118 142 l18 2"/><path d="M118 144 l14 10"/></g>';
+  const blush = o.blush ? '<circle cx="74" cy="122" r="8" fill="#FF8FB1" opacity=".8"/><circle cx="126" cy="122" r="8" fill="#FF8FB1" opacity=".8"/>' : '';
+  const brow = o.brow ? '<path d="M70 92 l18 6 M130 92 l-18 6" stroke="#2a1d18" stroke-width="5" stroke-linecap="round"/>' : '';
+  const mouth = o.mouth==='o' ? '<ellipse cx="100" cy="134" rx="7" ry="9" fill="#2a1d18"/>' : '<path d="M88 132 q12 10 24 0" stroke="#2a1d18" stroke-width="5" fill="none" stroke-linecap="round"/>';
+  return `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="${o.bg||'#FFF6E5'}"/>
+  <g transform="translate(100 108) scale(${s}) translate(-100 -108)">
+  ${[[60,60],[100,46],[140,60],[156,96],[146,138],[100,158],[54,138],[44,96]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="${o.fat?34:30}" fill="${wool}" stroke="#E9E2D6" stroke-width="3"/>`).join('')}
+  <ellipse cx="54" cy="96" rx="20" ry="11" fill="${face}" transform="rotate(-25 54 96)"/><ellipse cx="146" cy="96" rx="20" ry="11" fill="${face}" transform="rotate(25 146 96)"/>
+  <ellipse cx="100" cy="112" rx="40" ry="44" fill="${face}"/>
+  <circle cx="84" cy="106" r="11" fill="#fff"/><circle cx="116" cy="106" r="11" fill="#fff"/>
+  <circle cx="${o.look?88:85}" cy="108" r="6" fill="#1a1a1a"/><circle cx="${o.look?120:117}" cy="108" r="6" fill="#1a1a1a"/>
+  <circle cx="87" cy="105" r="2" fill="#fff"/><circle cx="119" cy="105" r="2" fill="#fff"/>
+  ${brow}${blush}${mouth}
+  ${[[78,70],[100,62],[122,70]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="16" fill="${wool}" stroke="#E9E2D6" stroke-width="3"/>`).join('')}
+  ${acc}</g></svg>`;
+}
+function person(o){
+  const skin=o.skin||'#E8B48A', robe=o.robe, cloth=o.cloth;
+  let head='';
+  if(o.veil) head=`<path d="M48 120 Q50 40 100 38 Q150 40 152 120 L152 190 L48 190 Z" fill="${cloth}"/>`;
+  else if(cloth) head=`<path d="M56 96 Q58 46 100 44 Q142 46 144 96 Q120 80 100 82 Q80 80 56 96 Z" fill="${cloth}"/><rect x="56" y="78" width="88" height="12" rx="6" fill="${o.band||'#fff'}" opacity=".85"/>`;
+  else head=`<path d="M60 92 Q64 52 100 52 Q136 52 140 92 Q120 74 100 76 Q80 74 60 92 Z" fill="${o.hair||'#5a3b22'}"/>`;
+  const beard = o.beard ? `<path d="M70 120 Q74 168 100 170 Q126 168 130 120 Q118 140 100 140 Q82 140 70 120 Z" fill="${o.beard}"/>` : '';
+  const wings = o.wings ? `<path d="M40 150 Q2 100 30 70 Q40 110 70 128 Z" fill="#fff" stroke="#E6E1F5" stroke-width="3"/><path d="M160 150 Q198 100 170 70 Q160 110 130 128 Z" fill="#fff" stroke="#E6E1F5" stroke-width="3"/>` : '';
+  const halo = o.halo ? `<ellipse cx="100" cy="36" rx="30" ry="9" fill="none" stroke="#FFD23F" stroke-width="7"/>` : '';
+  const prop = o.prop==='staff' ? `<path d="M168 200 L168 70 Q168 46 150 50" stroke="#7a4b23" stroke-width="9" fill="none" stroke-linecap="round"/>`
+    : o.prop==='lantern' ? `<g transform="translate(160 132)"><path d="M0 -26 v8" stroke="#555" stroke-width="4"/><rect x="-14" y="-18" width="28" height="34" rx="6" fill="#FFD23F" stroke="#B8860B" stroke-width="4"/><circle cy="0" r="6" fill="#FF8F00"/></g>` : '';
+  const blush = o.blush ? '<circle cx="78" cy="122" r="8" fill="#FF8FB1" opacity=".7"/><circle cx="122" cy="122" r="8" fill="#FF8FB1" opacity=".7"/>' : '';
+  const sc = o.small ? 'translate(100 120) scale(.86) translate(-100 -120)' : '';
+  return `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="${o.bg||'#F3F0FF'}"/>${wings}<g transform="${sc}">
+  <path d="M38 200 Q42 150 100 146 Q158 150 162 200 Z" fill="${robe}"/>
+  ${o.veil?head:''}
+  <circle cx="100" cy="108" r="40" fill="${skin}"/>
+  ${o.veil?'':head}${beard}
+  <circle cx="86" cy="108" r="5" fill="#1a1a1a"/><circle cx="114" cy="108" r="5" fill="#1a1a1a"/>
+  ${o.old?'<path d="M78 98 h14 M108 98 h14" stroke="#fff" stroke-width="4" stroke-linecap="round"/>':''}
+  ${blush}<path d="M88 126 q12 9 24 0" stroke="#7a3b2b" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  ${halo}</g>${prop}</svg>`;
+}
+function narrator(){
+  return `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#ECEFF1"/>
+  <path d="M40 70 l6 14 l15 2 l-11 10 l3 15 l-13 -8 l-13 8 l3 -15 l-11 -10 l15 -2z" fill="#FFD23F"/>
+  <path d="M160 50 l4 10 l11 1 l-8 7 l2 11 l-9 -6 l-9 6 l2 -11 l-8 -7 l11 -1z" fill="#FFD23F"/>
+  <path d="M40 150 h120 v20 Q100 186 40 170 Z" fill="#8D6E63"/><path d="M44 146 Q100 120 156 146 v8 Q100 132 44 154 Z" fill="#fff" stroke="#c8bfb0" stroke-width="3"/>
+  <rect x="84" y="46" width="32" height="56" rx="16" fill="#546E7A"/><path d="M72 84 Q72 118 100 118 Q128 118 128 84" stroke="#37474F" stroke-width="7" fill="none"/>
+  <path d="M100 118 v18" stroke="#37474F" stroke-width="7"/><g stroke="#90A4AE" stroke-width="3"><path d="M90 60h20M90 70h20M90 80h20"/></g></svg>`;
+}
+const AV = {
+  'Embe': ()=>sheep({acc:'crown',brow:true,bg:'#FFF1D6'}),
+  'Embi': ()=>sheep({acc:'bow',face:'#5D4637',bg:'#E0FAFC',blush:true}),
+  'Bolu': ()=>sheep({fat:true,acc:'grass',face:'#6D4C41',bg:'#F3ECE8'}),
+  'Cilik': ()=>sheep({small:true,blush:true,mouth:'o',bg:'#FFE6EF'}),
+  'Pak Yakob': ()=>person({robe:'#8A5A2B',cloth:'#C98B4A',band:'#5a3a1a',beard:'#EDEDED',old:true,prop:'staff',bg:'#FBEBD7'}),
+  'Timo': ()=>person({robe:'#1E7BE0',cloth:'#5AA5FF',band:'#0d4e9c',prop:'lantern',bg:'#E3F0FF'}),
+  'Malaikat': ()=>person({robe:'#FFFFFF',hair:'#F2C14E',wings:true,halo:true,skin:'#F1C9A5',bg:'#FFF6CC'}),
+  'Malaikat Kecil': ()=>person({robe:'#FFFFFF',hair:'#7b4a2a',wings:true,halo:true,small:true,blush:true,bg:'#EFE9FF'}),
+  'Maria': ()=>person({robe:'#3949AB',veil:true,cloth:'#6F86FF',skin:'#E9BC94',blush:true,bg:'#E8ECFF'}),
+  'Yusuf': ()=>person({robe:'#00897B',cloth:'#A1887F',band:'#5d4037',beard:'#5a3b22',bg:'#DDF5F1'}),
+  'Narator': narrator,
+};
+const SV = {}; function avatar(r){ return SV[r] || (SV[r] = (AV[r]||narrator)()); }
+
+
+const $=id=>document.getElementById(id), audio=$('audio');
+const title=s=>s.toLowerCase().replace(/(^|\s)\S/g,m=>m.toUpperCase());
+function rolesOf(w){ w=w.trim(); if(/^semua$/i.test(w)) return ['SEMUA']; if(/^gembala$/i.test(w)) return ['Pak Yakob','Timo']; return w.split(/,|&/).map(x=>title(x.trim())).filter(Boolean); }
+function bg(rs){
+  if(rs[0]==='SEMUA') return 'linear-gradient(135deg,#FF5C8A,#FFB547 30%,#4CD3A5 55%,#4AA8FF 78%,#9B7BFF)';
+  const cs=rs.map(r=>ROLES[r]||ROLES.Narator);
+  return cs.length===1?`linear-gradient(160deg,${cs[0].c2},${cs[0].c})`:`linear-gradient(135deg,${cs.map(c=>c.c).join(',')})`;
+}
+let si=0, li=-2;
+const sec=()=>DATA[si];
+function show(i){
+  if(i===li) return; li=i; const s=sec();
+  const scr=$('screen');
+  if(i<0){
+    scr.style.background='linear-gradient(160deg,#7E6BD6,#3E2F86)';
+    $('avs').className='avs'; $('avs').innerHTML='<div class="av">'+avatar('Narator')+'</div>';
+    $('name').textContent=s.emoji+' '+s.title;
+    $('txt').textContent= src(s)?(audio.paused?'Tekan ▶ untuk mulai':'🎶 Dengarkan…'):'Ketuk layar untuk lirik berikutnya';
+  } else {
+    const l=s.lines[i], rs=rolesOf(l.who);
+    scr.style.background=bg(rs);
+    const list=rs[0]==='SEMUA'?['Embe','Embi','Malaikat','Timo','Cilik']:rs;
+    $('avs').className='avs'+(list.length>2?' many':'');
+    $('avs').innerHTML=list.map(r=>'<div class="av">'+avatar(r)+'</div>').join('');
+    $('name').textContent=title(l.who);
+    $('txt').innerHTML=(l.part?'<span class="note">♪</span>':'')+l.text;
+  }
+  for(const el of [$('avs'),$('name'),$('txt')]){ el.classList.remove('anim'); void el.offsetWidth; el.classList.add('anim'); }
+}
+function lineAt(t){ const L=sec().lines; let k=-1; for(let i=0;i<L.length;i++){ if(L[i].t<=t+0.05) k=i; else break; } return k; }
+function load(i, autoplay){
+  si=(i+DATA.length)%DATA.length; const s=sec(); li=-2;
+  $('title').textContent=`${si+1}/${DATA.length} · ${s.emoji} ${s.title}`;
+  if(src(s)){ audio.src=src(s); audio.load(); if(autoplay) audio.play().catch(()=>{}); } else { audio.removeAttribute('src'); audio.load(); }
+  $('play').textContent='▶'; $('prog').style.width='0'; show(-1);
+}
+audio.ontimeupdate=()=>{ const s=sec(); if(!src(s)) return; show(lineAt(audio.currentTime)); $('prog').style.width=(audio.currentTime/(s.duration||audio.duration||1)*100)+'%'; };
+audio.onplay=()=>{ $('play').textContent='⏸'; if(li<0){ li=-2; show(-1); } };
+audio.onpause=()=>$('play').textContent='▶';
+audio.onended=()=>{ if(si<DATA.length-1) load(si+1,true); };
+$('play').onclick=e=>{ e.stopPropagation(); const s=sec(); if(!src(s)){ manualNext(); return; } audio.paused?audio.play().catch(()=>{}):audio.pause(); };
+$('prev').onclick=e=>{ e.stopPropagation(); load(si-1); };
+$('next').onclick=e=>{ e.stopPropagation(); load(si+1); };
+function manualNext(){ const s=sec(); if(li<s.lines.length-1){ show(li+1); $('prog').style.width=((li+1)/s.lines.length*100)+'%'; } else load(si+1); }
+$('screen').onclick=()=>{ if(!src(sec())) manualNext(); };
+document.onkeydown=e=>{ if(e.code==='Space'){ e.preventDefault(); $('play').click(); } if(e.code==='ArrowRight') $('next').click(); if(e.code==='ArrowLeft') $('prev').click(); };
+/* ---------- audio loader (IndexedDB) ---------- */
+function idb(){ return new Promise((res,rej)=>{ try{ const r=indexedDB.open('kandangku',1); r.onupgradeneeded=()=>r.result.createObjectStore('audio'); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error);}catch(e){rej(e)} }); }
+async function idbPut(k,v){ try{ const db=await idb(); await new Promise((res,rej)=>{ const tx=db.transaction('audio','readwrite'); tx.objectStore('audio').put(v,k); tx.oncomplete=res; tx.onerror=()=>rej(tx.error); }); }catch(e){} }
+async function idbAll(){ try{ const db=await idb(); return await new Promise((res)=>{ const out={}; const tx=db.transaction('audio','readonly'); const st=tx.objectStore('audio'); const rq=st.openCursor(); rq.onsuccess=()=>{ const c=rq.result; if(c){ out[c.key]=c.value; c.continue(); } else res(out); }; rq.onerror=()=>res({}); }); }catch(e){ return {}; } }
+function needAudio(){ return DATA.some(s=>s.audio && !src(s)); }
+function refreshLoader(){
+  const miss = DATA.filter(s=>s.audio && !src(s)).map(s=>s.emoji+' '+(s.title.split(' · ')[1]||s.title));
+  $('loader').hidden = !miss.length;
+  $('loadInfo').textContent = miss.length && Object.keys(BLOB).length ? 'Masih kurang: '+miss.join(', ') : '';
+}
+function matchFiles(files){
+  const lagu = {}, dialog = [];
+  [...files].forEach(f=>{ const m=f.name.match(/lagu[ _-]?(\d)/i); if(m) lagu['l'+m[1]]=f; else dialog.push(f); });
+  const key = f => { const m=f.name.match(/(\d{10,})/); return m? +m[1] : f.lastModified; };
+  dialog.sort((a,b)=>key(a)-key(b));
+  const out = {...lagu};
+  ['a1','a2','a3','a4','a5'].forEach((k,i)=>{ if(dialog[i]) out[k]=dialog[i]; });
+  return out;
+}
+
+function refreshLoader(){ $('load').hidden = !DATA.some(s=>s.audio && !src(s)); }
+function matchFiles(files){
+  const out={}, dialog=[];
+  [...files].forEach(f=>{ const m=f.name.match(/lagu[ _-]?(\d)/i); if(m) out['l'+m[1]]=f; else dialog.push(f); });
+  const key=f=>{ const m=f.name.match(/(\d{10,})/); return m?+m[1]:f.lastModified; };
+  dialog.sort((a,b)=>key(a)-key(b)); ['a1','a2','a3','a4','a5'].forEach((k,i)=>{ if(dialog[i]) out[k]=dialog[i]; });
+  return out;
+}
+$('files').onchange=async e=>{ const m=matchFiles(e.target.files); for(const [k,f] of Object.entries(m)){ if(!DATA.find(s=>s.id===k)) continue; BLOB[k]=URL.createObjectURL(f); await idbPut(k,f); } refreshLoader(); load(si); };
+load(0);
+if(!OFFLINE){ refreshLoader(); idbAll().then(all=>{ let n=0; for(const [k,v] of Object.entries(all)){ if(v&&!BLOB[k]){ BLOB[k]=URL.createObjectURL(v); n++; } } if(n){ refreshLoader(); load(si); } }); }
+</script>
+</body>
+</html>
