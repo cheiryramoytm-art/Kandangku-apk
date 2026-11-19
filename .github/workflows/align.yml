@@ -1,8 +1,5 @@
 name: Align subtitles
 on:
-  push:
-    branches: [main]
-    paths: ['tools/**', '.github/workflows/align.yml']
   workflow_dispatch:
 permissions:
   contents: write
